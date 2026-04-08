@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -25,10 +26,38 @@ class LeadResponseList(BaseModel):
 
 
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    temperature=0.3
-)
+MODEL_CANDIDATES = [
+    os.getenv("GOOGLE_MODEL"),
+    os.getenv("GEMINI_MODEL"),
+    "gemini-2.5-flash",
+    "gemini-2.1",
+    "gemini-1.5-pro",
+    "gemini-1.0",
+]
+MODEL_CANDIDATES = [m for m in MODEL_CANDIDATES if m]
+
+
+def get_llm():
+    api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "Missing Google API key. Set GOOGLE_API_KEY or GEMINI_API_KEY in your environment."
+        )
+
+    last_error = None
+    for model_name in MODEL_CANDIDATES:
+        try:
+            return ChatGoogleGenerativeAI(model=model_name, temperature=0.3, google_api_key=api_key)
+        except Exception as exc:
+            last_error = exc
+            if any(keyword in str(exc).upper() for keyword in ["UNAVAILABLE", "HIGH DEMAND", "RESOURCE_EXHAUSTED", "NOT_FOUND"]):
+                continue
+            raise
+
+    raise RuntimeError(f"Unable to initialize a Google LLM. Last error: {last_error}")
+
+
+llm = get_llm()
 
 parser = PydanticOutputParser(pydantic_object=LeadResponseList)
 

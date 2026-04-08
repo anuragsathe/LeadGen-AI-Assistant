@@ -63,6 +63,24 @@ Create a `.env` file in the repository root with:
 GOOGLE_API_KEY=your_google_api_key_here
 ```
 
+### PostgreSQL setup
+If you want to use PostgreSQL instead of the default SQLite database, add these values to `.env`:
+```env
+POSTGRES_DB=leadgen_db
+POSTGRES_USER=leadgen_user
+POSTGRES_PASSWORD=your_password_here
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+```
+
+Then create the database and user in PostgreSQL and run migrations:
+```bash
+cd leadgen_api
+python manage.py migrate
+```
+
+If no PostgreSQL environment variables are provided, the app will continue using SQLite automatically.
+
 ## 💻 Usage
 
 ### 1) Run the CLI lead generator
