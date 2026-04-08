@@ -30,10 +30,8 @@ MODEL_CANDIDATES = [
     os.getenv("GOOGLE_MODEL"),
     os.getenv("GEMINI_MODEL"),
     "gemini-2.5-flash",
-    "gemini-2.1",
-    "gemini-1.5-pro",
-    "gemini-1.0",
 ]
+
 MODEL_CANDIDATES = [m for m in MODEL_CANDIDATES if m]
 
 

@@ -1,73 +1,71 @@
 
 --- Leads Output ---
-Timestamp: 2026-04-07 15:22:52
+Timestamp: 2026-04-08 16:22:48
 
 {
   "leads": [
     {
-      "company": "Nemesis Coffee",
-      "contact_info": "302 W Hastings St, Vancouver, BC V6B 1K6, Canada",
-      "email": "info@nemesis.coffee",
-      "summary": "A popular, growing cafe chain with multiple locations. They likely use POS systems, online ordering, staff scheduling software, and need reliable Wi-Fi for customers and operations. As they expand, managing IT across locations and ensuring data security for transactions and customer info becomes crucial. They might benefit from managed IT services, network optimization, and cybersecurity.",
-      "outreach_message": "Hi Nemesis Coffee team, your cafes are fantastic! We specialize in helping growing hospitality businesses like yours ensure seamless IT operations, from reliable POS systems to secure customer Wi-Fi. Would you be open to a brief chat about how we could support your continued growth?",
+      "company": "The Soap Dispensary & Kitchen Staples",
+      "contact_info": "2926 Main St, Vancouver, BC V5T 3G3, Canada | (604) 568-3141",
+      "email": "info@thesoapdispensary.com",
+      "summary": "As a popular refill store with an online presence, they likely use POS systems, e-commerce platforms, and manage customer data. They could benefit from improved network reliability, data backup solutions, and cybersecurity to protect transactions and customer information, especially as a small business without dedicated IT staff.",
+      "outreach_message": "Hi [Contact Name], we admire your commitment to sustainability at The Soap Dispensary. We specialize in helping small businesses like yours ensure their POS, e-commerce, and data systems run smoothly and securely. Would you be open to a brief chat about optimizing your IT infrastructure?",
       "tools_used": [
-        "Square POS",
         "Shopify",
-        "Google Workspace",
-        "7shifts"
+        "Square POS",
+        "Cloud Storage"
       ]
     },
     {
-      "company": "The Latest Scoop",
-      "contact_info": "2922 Granville St, Vancouver, BC V6H 3J5, Canada",
-      "email": "info@thelatestscoop.ca",
-      "summary": "A local fashion boutique with several stores. They would use POS systems, inventory management software, potentially e-commerce platforms, and customer relationship management. Ensuring data integrity, secure transactions, and efficient system performance across all stores is vital for their retail operations. They might need help with network stability, cloud integration, and data backup.",
-      "outreach_message": "Hello The Latest Scoop team, we admire your unique fashion offerings! For growing retail businesses with multiple locations, efficient and secure IT is key. We help ensure your POS, inventory, and online systems run smoothly. Would you be interested in discussing how we could optimize your tech infrastructure?",
+      "company": "Nemesis Coffee",
+      "contact_info": "302 W Hastings St, Vancouver, BC V6B 1E6, Canada (Gastown location) | (604) 559-4242",
+      "email": "info@nemesis.coffee",
+      "summary": "With multiple busy locations and a focus on high-quality customer experience, Nemesis Coffee relies heavily on robust POS systems, customer Wi-Fi, and potentially online ordering. They could benefit from network optimization across locations, secure data synchronization, and reliable IT support to minimize downtime and enhance operational efficiency.",
+      "outreach_message": "Hello Nemesis Coffee Team, your reputation for excellent coffee and atmosphere is well-known! We help multi-location businesses like yours ensure seamless IT operations, from reliable POS to secure customer Wi-Fi. Could we discuss how optimized IT can further enhance your customer experience and operational flow?",
       "tools_used": [
-        "Shopify POS",
-        "Lightspeed Retail",
-        "QuickBooks",
-        "Mailchimp"
+        "Toast POS",
+        "Square POS",
+        "Ubiquiti Wi-Fi",
+        "Cloud-based inventory management"
       ]
     },
     {
-      "company": "MacLean Law",
-      "contact_info": "1040 W Georgia St #2000, Vancouver, BC V6E 4H1, Canada",
-      "email": "reception@macleanlaw.ca",
-      "summary": "A prominent family law firm. They handle sensitive client data, require robust cybersecurity, reliable document management systems, and secure communication. Compliance with legal regulations (e.g., data privacy) is paramount. They likely need advanced network security, cloud solutions for document sharing, data backup and disaster recovery, and ongoing IT support to ensure uptime and data integrity.",
-      "outreach_message": "Dear MacLean Law team, we understand the critical importance of data security and system reliability for legal practices. We offer specialized IT services to ensure your firm's sensitive information is protected, and your operations run without interruption. Could we schedule a brief call to discuss your specific needs?",
+      "company": "Ascent Law Corporation",
+      "contact_info": "1050 W Pender St #1700, Vancouver, BC V6E 3S7, Canada | (604) 682-3668",
+      "email": "info@ascentlawcorp.com",
+      "summary": "As a law firm, Ascent Law Corporation handles highly sensitive client data, requiring stringent cybersecurity, data privacy compliance (PIPEDA), and reliable document management systems. They would benefit from secure cloud solutions, robust data backup and disaster recovery, and ongoing IT support to ensure data integrity and operational continuity.",
+      "outreach_message": "Dear Ascent Law Corporation, we understand the critical importance of data security and compliance for legal practices. Our IT services are designed to provide robust cybersecurity, reliable data management, and seamless operations for firms like yours. Would you be interested in a brief consultation on enhancing your IT infrastructure?",
       "tools_used": [
-        "Clio",
-        "MyCase",
         "Microsoft 365",
-        "Adobe Acrobat"
+        "Document Management System (e.g., Clio, MyCase)",
+        "Cloud Backup Solutions",
+        "Endpoint Security"
       ]
     },
     {
-      "company": "Electra Health",
-      "contact_info": "970 Burrard St #120, Vancouver, BC V6Z 2R4, Canada",
-      "email": "info@electrahealth.ca",
-      "summary": "A multi-disciplinary health clinic. They use patient management systems (EMR/EHR), appointment scheduling software, and need secure networks to protect patient health information (PHI) in compliance with privacy regulations (e.g., PIPEDA in Canada). Reliable systems for booking, billing, and patient records are essential. They could benefit from managed IT services, data backup, cybersecurity, and network optimization.",
-      "outreach_message": "Hello Electra Health team, we recognize that patient data security and reliable systems are vital for health clinics. We provide IT solutions tailored for healthcare, ensuring your EMR, scheduling, and network infrastructure are secure and efficient. Would you be open to a quick chat about enhancing your clinic's IT?",
+      "company": "Vancouver Physiotherapy & Sports Clinic",
+      "contact_info": "1033 Davie St, Vancouver, BC V6E 1M7, Canada | (604) 684-1713",
+      "email": "info@vancouverphysio.com",
+      "summary": "This clinic manages patient records, appointments, and potentially billing, all of which require secure and reliable IT systems. They need robust data privacy measures (PIPEDA compliance), secure patient management software, reliable network infrastructure, and data backup to protect sensitive health information and ensure smooth clinic operations.",
+      "outreach_message": "Hello Vancouver Physiotherapy & Sports Clinic Team, we recognize the importance of secure and efficient IT for healthcare providers. We specialize in helping clinics like yours with data privacy compliance, reliable patient management systems, and secure networks. Would you be open to exploring how we can support your clinic's IT needs?",
       "tools_used": [
-        "Jane App",
-        "ClinicSense",
-        "Microsoft 365",
-        "Telus Health EMR"
+        "Practice Management Software (e.g., Jane App)",
+        "Secure Cloud Storage",
+        "HIPAA/PIPEDA Compliant Solutions",
+        "Encrypted Email"
       ]
     },
     {
-      "company": "Drive Digital",
-      "contact_info": "1000 W Broadway #400, Vancouver, BC V6H 1E3, Canada",
-      "email": "info@drivedigital.ca",
-      "summary": "A digital agency that relies heavily on high-performance workstations, large file storage, cloud collaboration tools, and robust network infrastructure for design, development, and marketing tasks. Data backup for client projects, cybersecurity, and efficient project management tools are critical. They might need support with hardware upgrades, cloud storage solutions, network speed, and specialized software support.",
-      "outreach_message": "Hi Drive Digital team, as a creative agency, we know you depend on powerful, reliable tech to deliver for your clients. We offer IT services that optimize performance, secure your data, and streamline your workflow, letting your team focus on innovation. Would you be interested in exploring how we can support your creative process?",
+      "company": "Forge & Spark Media",
+      "contact_info": "312 Main St #405, Vancouver, BC V6A 2T2, Canada | (604) 628-0060",
+      "email": "hello@forgeandspark.com",
+      "summary": "As a content marketing agency, Forge & Spark Media relies on high-performance workstations, large file storage, collaborative cloud tools, and robust network connectivity for creative projects. They could benefit from optimized network performance, secure cloud collaboration platforms, data backup for creative assets, and cybersecurity to protect client work and intellectual property.",
+      "outreach_message": "Hi Forge & Spark Media, your creative work is impressive! We understand that agencies like yours need reliable and high-performing IT to power your projects. We can help optimize your network, secure your creative assets, and streamline your cloud collaboration. Let's connect to discuss how we can support your team.",
       "tools_used": [
         "Adobe Creative Suite",
-        "Figma",
-        "Slack",
-        "Asana",
-        "Google Workspace"
+        "Google Workspace",
+        "Cloud Storage (e.g., Dropbox, Google Drive)",
+        "Project Management Software (e.g., Asana)"
       ]
     }
   ]

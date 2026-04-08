@@ -1,5 +1,6 @@
 import json
 import os
+from functools import lru_cache
 from pathlib import Path
 
 from rest_framework.decorators import api_view, parser_classes
@@ -29,13 +30,11 @@ MODEL_CANDIDATES = [
     os.getenv("GOOGLE_MODEL"),
     os.getenv("GEMINI_MODEL"),
     "gemini-2.5-flash",
-    "gemini-2.1",
-    "gemini-1.5-pro",
-    "gemini-1.0",
 ]
 MODEL_CANDIDATES = [m for m in MODEL_CANDIDATES if m]
 
 
+@lru_cache(maxsize=1)
 def get_llm():
     api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
     if not api_key:
@@ -49,7 +48,7 @@ def get_llm():
             return ChatGoogleGenerativeAI(model=model_name, google_api_key=api_key)
         except Exception as exc:
             last_error = exc
-            if any(keyword in str(exc).upper() for keyword in ["UNAVAILABLE", "HIGH DEMAND", "RESOURCE_EXHAUSTED"]):
+            if any(keyword in str(exc).upper() for keyword in ["UNAVAILABLE", "HIGH DEMAND", "RESOURCE_EXHAUSTED", "NOT_FOUND"]):
                 continue
             raise
 
@@ -72,60 +71,49 @@ def generate_leads(request):
     except RuntimeError as e:
         return Response({"error": str(e)}, status=500)
 
+    search_query = f"{industry} {location} small business"
+    data = search_and_scrape(search_query)
 
-    queries = [
-        f"{industry} {location} small business",
-        f"{industry} company {location}",
-        f"{industry} services {location}",
-    ]
+    if not data:
+        return Response({"error": "Unable to get any searchable company data."}, status=500)
 
-    leads = []
-    lead_objects = []
+    if data.startswith("SEARCH ERROR:"):
+        data = f"Unable to load search results. Use the original query instead: {search_query}"
 
-    for q in queries:
-        data = search_and_scrape(q)
+    prompt = f"""
+        Extract and format exactly 5 leads as valid JSON with this schema:
+        - company_name
+        - contact_info
+        - email
+        - why_need_it
+        - outreach_message
 
-        if data == "No results":
-            leads.append("No leads found for this query")
-            continue
+        Use the following source data and return only JSON with 5 entries.
 
-        prompt = f"""
-        Extract and format as JSON:
-        - Company Name
-        - Contact Info
-        - Email
-        - Why they need IT services
-        - Outreach message
-
-        DATA:
+        SOURCE DATA:
         {data}
         """
 
-        try:
-            response = llm.invoke(prompt)
-            response_content = response.content
-            leads.append(response_content)
-            
-            # Save to database
-            lead_obj = Lead.objects.create(
-                company_name="Generated Lead",
-                industry=industry,
-                location=location,
-                raw_response=response_content,
-            )
-            lead_objects.append(lead_obj.id)
-            
-        except Exception as e:
-            error_str = str(e)
-            if "RESOURCE_EXHAUSTED" in error_str:
-                leads.append("API quota exceeded, please try again later")
-            else:
-                leads.append(f"Error processing query: {error_str}")
+    try:
+        response = llm.invoke(prompt)
+        response_content = response.content
+    except Exception as e:
+        error_str = str(e)
+        if "RESOURCE_EXHAUSTED" in error_str:
+            return Response({"error": "API quota exceeded, please try again later"}, status=503)
+        return Response({"error": f"Error processing request: {error_str}"}, status=500)
+
+    lead_obj = Lead.objects.create(
+        company_name="Generated Lead",
+        industry=industry,
+        location=location,
+        raw_response=response_content,
+    )
 
     return Response({
-        "leads": leads,
-        "saved_lead_ids": lead_objects,
+        "leads": [response_content],
+        "saved_lead_ids": [lead_obj.id],
         "industry": industry,
         "location": location,
-        "message": f"Generated and saved {len(lead_objects)} leads"
+        "message": "Generated and saved 1 lead record"
     })
