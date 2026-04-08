@@ -1,36 +1,39 @@
 # LeadGen AI Assistant
 
-An intelligent AI-powered lead generation system that identifies and analyzes potential business leads using advanced natural language processing and web search capabilities.
+An intelligent AI-powered lead generation system that discovers and analyzes potential business leads using Google Gemini, LangChain, web search, and a Django REST API backend.
 
 ## 🎯 Overview
 
-LeadGen AI Assistant leverages Google's Generative AI (Gemini) and LangChain to automatically discover small businesses that may need IT services. It performs targeted research to generate actionable sales leads with comprehensive contact information and personalized outreach messages.
+LeadGen AI Assistant offers two main entry points:
+- A local command-line lead generation script (`main.py`) that produces structured lead output.
+- A Django REST API service (`leadgen_api/`) that exposes a POST endpoint for lead generation.
+
+The system combines web search, scraping, and AI prompt engineering to identify small businesses that may need IT services and return business profiles with outreach guidance.
 
 ## ✨ Features
 
-- **AI-Powered Lead Discovery**: Uses Gemini 2.5 Flash for intelligent business identification
-- **Automated Research**: Integrates web search and information gathering tools
-- **Lead Analysis**: Generates comprehensive lead profiles including:
-  - Company name and contact information
-  - Email addresses and phone numbers
-  - Service relevance summaries
-  - Personalized outreach messages
-- **Data Export**: Saves leads to formatted output files
-- **Structured Output**: Uses Pydantic models for consistent, validated data
+- **AI-Powered Lead Research**: Uses Gemini 2.5 Flash through `langchain_google_genai`
+- **Automated Data Gathering**: Combines search results and scraping to collect business information
+- **REST API**: Provides a Django REST endpoint for remote lead generation requests
+- **Structured Lead Output**: Returns validated JSON lead records
+- **Flexible Usage**: Supports both standalone script execution and API-driven workflows
 
 ## 🛠️ Tech Stack
 
-- **Python 3.x**
-- **LangChain**: LLM orchestration and chains
-- **Google Generative AI**: Gemini 2.5 Flash model
-- **DuckDuckGo Search**: Web searching capabilities
-- **BeautifulSoup4**: Web scraping
-- **Pydantic**: Data validation
+- **Python 3.8+**
+- **Django 4.2**
+- **Django REST Framework**
+- **LangChain**
+- **Google Generative AI** (Gemini 2.5 Flash)
+- **DuckDuckGo Search**
+- **BeautifulSoup4**
+- **Pydantic**
+- **python-dotenv**
 
 ## 📋 Prerequisites
 
 - Python 3.8 or higher
-- Google API key (for Gemini access)
+- Google API key for Gemini access
 - Internet connection
 
 ## 🚀 Installation
@@ -41,10 +44,12 @@ git clone https://github.com/anuragsathe/LeadGen-AI-Assistant.git
 cd LeadGen-AI-Assistant
 ```
 
-2. **Create a virtual environment**:
+2. **Create and activate a virtual environment**:
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate    # Windows
+# or
+source venv/bin/activate  # macOS/Linux
 ```
 
 3. **Install dependencies**:
@@ -52,90 +57,128 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. **Set up environment variables**:
-Create a `.env` file in the root directory and add:
-```
+4. **Configure environment variables**:
+Create a `.env` file in the repository root with:
+```env
 GOOGLE_API_KEY=your_google_api_key_here
 ```
 
-Get your Google API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
-
 ## 💻 Usage
 
-Run the lead generation script:
+### 1) Run the CLI lead generator
+
 ```bash
 python main.py
 ```
 
-The application will:
-1. Initialize the Gemini AI model
-2. Research and identify potential business leads
-3. Generate structured lead profiles
-4. Save results to `leads_output.txt`
+This will:
+- initialize the Gemini AI model
+- search for relevant small businesses
+- generate structured lead profiles
+- save results to `leads_output.txt`
 
-### Output Format
+### 2) Run the Django REST API
 
-Results are saved as structured JSON containing:
-- **company**: Business name
-- **contact_info**: Phone, address, or other contact details
-- **email**: Email address if available
-- **summary**: Why the business may need IT services
-- **outreach_message**: Personalized message template
-- **tools_used**: Relevant tools/services identified
+Change to the Django project directory and run the server:
+
+```bash
+cd leadgen_api
+python manage.py migrate
+python manage.py runserver
+```
+
+Then submit a POST request to:
+
+```http
+POST http://127.0.0.1:8000/api/generate-leads/
+```
+
+Request body:
+```json
+{
+  "industry": "marketing agency",
+  "location": "Vancouver"
+}
+```
+
+Example using `curl`:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/generate-leads/ \
+  -H "Content-Type: application/json" \
+  -d '{"industry":"marketing agency","location":"Vancouver"}'
+```
+
+Response format:
+```json
+{
+  "leads": [
+    "<lead data or error message>",
+    "..."
+  ]
+}
+```
 
 ## 📁 Project Structure
 
 ```
 LeadGen-AI-Assistant/
-├── main.py              # Main application entry point
-├── tools.py             # Utility functions and tools
-├── requirements.txt     # Python dependencies
-├── leads_output.txt     # Generated leads output
-├── .env                 # Environment variables (not committed)
-├── .gitignore           # Git ignore rules
-└── README.md            # This file
+├── main.py                     # Standalone lead generation script
+├── tools.py                    # Utility functions and tools
+├── requirements.txt            # Python dependencies
+├── leads_output.txt            # Output from CLI lead generation
+├── .env                        # Environment variables (not committed)
+├── .gitignore                  # Git ignore rules
+├── README.md                   # Project documentation
+└── leadgen_api/                # Django REST API project
+    ├── db.sqlite3              # Local SQLite database
+    ├── manage.py               # Django management commands
+    ├── leadgen_api/            # Django project settings and URLs
+    │   ├── settings.py
+    │   ├── urls.py
+    │   ├── asgi.py
+    │   └── wsgi.py
+    └── leads/                  # Django app implementing the API
+        ├── views.py
+        ├── urls.py
+        ├── models.py
+        └── apps.py
 ```
 
-## 🔧 Configuration
+## 🔧 Django API Details
 
-Key settings in `main.py`:
-- **Model**: Gemini 2.5 Flash
-- **Temperature**: 0.3 (for consistent, focused responses)
-- **Location**: Configurable (default: Vancouver, Canada)
-- **Lead Count**: Set to 5 per query
+The REST endpoint is implemented in `leadgen_api/leads/views.py` and available at:
+- `POST /api/generate-leads/`
 
-## 📊 Example Output
+Required JSON fields:
+- `industry`
+- `location`
+
+If required fields are missing, the endpoint returns a `400` response.
+
+## 📊 Example JSON Output
 
 ```json
 {
   "leads": [
-    {
-      "company": "Tech Solutions Inc",
-      "contact_info": "+1 (604) 555-0123",
-      "email": "info@techsolutions.com",
-      "summary": "Growing marketing agency with legacy systems needing modernization",
-      "outreach_message": "Your marketing team deserves modern IT infrastructure...",
-      "tools_used": ["Cloud Migration", "Network Optimization"]
-    }
+    "{\"company\": \"Tech Solutions Inc\", \"contact_info\": \"+1 (604) 555-0123\", \"email\": \"info@techsolutions.com\", \"summary\": \"Growing marketing agency with legacy systems needing modernization\", \"outreach_message\": \"Your marketing team deserves modern IT infrastructure...\", \"tools_used\": [\"Cloud Migration\", \"Network Optimization\"]}"
   ]
 }
 ```
 
 ## 🔐 Security
 
-- API keys are stored in `.env` (never committed)
-- Sensitive data is handled securely
-- `.gitignore` excludes `venv/`, `__pycache__/`, and `.env`
+- Store `GOOGLE_API_KEY` in `.env` and do not commit it to source control
+- This project is currently configured for development only
+- For production, secure Django `SECRET_KEY` and set `DEBUG = False`
 
 ## 🚀 Future Enhancements
 
-- [ ] Multi-location lead generation
-- [ ] CRM integration
-- [ ] Email automation
-- [ ] Lead scoring algorithms
-- [ ] Database storage
-- [ ] Web UI dashboard
-- [ ] Scheduled lead generation jobs
+- [ ] Add authentication for the REST API
+- [ ] Add lead scoring and ranking
+- [ ] Add CRM integration
+- [ ] Add batch lead generation and scheduling
+- [ ] Add a web UI dashboard
 
 ## 📝 License
 
