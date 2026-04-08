@@ -1,5 +1,5 @@
 
-from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import BraveSearch
 from langchain_core.tools import Tool
 
 from datetime import datetime

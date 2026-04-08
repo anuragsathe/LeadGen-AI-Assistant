@@ -24,7 +24,3 @@ urlpatterns = [
     path('api/', include('leads.urls')),
 ]
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('leads.urls')),
-]
